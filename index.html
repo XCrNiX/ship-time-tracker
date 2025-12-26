@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ship Time Tracker</title>
+  <style>
+    body { font-family: Arial; background:#111; color:#fff; text-align:center }
+    .card { background:#222; margin:20px auto; padding:20px; width:300px; border-radius:10px }
+    .ok { color: #00ff88 }
+    .no { color: #ff5555 }
+  </style>
+</head>
+<body>
+<h1>🚢 Ship Time</h1>
+<div id="content">Loading...</div>
+
+<script>
+fetch("data/status.json")
+.then(r => r.json())
+.then(data => {
+  let html = "";
+  data.people.forEach(p => {
+    html += `
+      <div class="card">
+        <h2>${p.name}</h2>
+        <p>🕒 ${p.local_time}</p>
+        <p class="${p.call_ok ? 'ok':'no'}">
+          ${p.call_ok ? '🟢 OK za zvat' : '🔴 Ne zovi'}
+        </p>
+      </div>`;
+  });
+  document.getElementById("content").innerHTML = html;
+});
+</script>
+</body>
+</html>
